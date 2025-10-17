@@ -1,39 +1,42 @@
-# Sample Task: Calculator Webpage
+# Sample Task: To-Do List Webpage
 
-This repository, [Sample Task](https://github.com/Chandhru2k5/sample-task), contains the source code for a basic calculator webpage. The webpage is designed to perform basic arithmetic operations like addition, subtraction, multiplication, and division.
+This repository, [sample-task](https://github.com/Chandhru2k5/sample-task), houses the code for a simple yet effective To-Do list webpage. The project is designed to help users manage their daily tasks effectively, providing a user-friendly interface for adding, managing, and deleting tasks.
 
 ## Features
 
-The calculator webpage offers the following functionality:
+The To-Do List Webpage includes the following features:
 
-1. **Basic Arithmetic Operations:** Perform addition, subtraction, multiplication, and division.
-2. **Clear Functionality:** Clear the input fields and results with a single click.
-3. **Responsive Design:** The webpage is designed to be responsive, ensuring compatibility with both desktop and mobile devices.
+1. **Add Tasks**: Users can add new tasks to their list.
+2. **Manage Tasks**: Users can edit the details of their existing tasks.
+3. **Delete Tasks**: Users can remove completed or unwanted tasks from their list.
 
-## Setup Instructions
+## Setup
 
-No specific setup is required for this project as it's a simple webpage. It can be run directly from the browser by opening the `index.html` file.
+No specific setup is required to run this project. As it is a static webpage, it can be directly run on any web browser.
 
-## Usage Instructions
+## Usage
 
-1. Navigate to the [live demo](https://Chandhru2k5.github.io/sample-task/) of the calculator webpage.
-2. Enter the numbers in the provided input fields.
-3. Choose the arithmetic operation you want to perform.
-4. Click on the `Calculate` button to get the result.
-5. To clear the input fields and result, click on the `Clear` button.
+To use the To-Do List Webpage, follow these steps:
 
-## Technical Implementation Details
+1. Visit the [live demo](https://Chandhru2k5.github.io/sample-task/).
+2. To add a task, fill in the task details and click on the "Add" button.
+3. To edit a task, click on the task to make changes and then save.
+4. To delete a task, click on the delete icon next to the task.
 
-The calculator webpage is built using HTML, CSS, and JavaScript. The page structure is designed with HTML, styled with CSS, and the calculator functionality is implemented using JavaScript.
+## Technical Implementation
 
-- `index.html` - Contains the structure of the webpage.
-- `styles.css` - Contains the styles for the webpage.
-- `script.js` - Contains the JavaScript code that implements the calculator functionality.
+The To-Do List Webpage is implemented using HTML, CSS, and JavaScript. The webpage is static and client-side, meaning all data is stored in the user's browser and no backend server is involved.
 
-## License Information
+The project follows an MVC architecture:
 
-This project is licensed under the terms of the [MIT License](https://opensource.org/licenses/MIT). For more details, please see the [LICENSE](https://github.com/Chandhru2k5/sample-task/blob/main/LICENSE) file in the repository.
+- The **Model** is implemented in JavaScript and represents the current state of the task list.
+- The **View** is implemented in HTML and CSS and represents the visual representation of the model.
+- The **Controller** is also implemented in JavaScript and mediates updates between the model and the view.
 
-## Contribution
+## License
 
-Contributions to improve this project are welcomed. Please feel free to fork the repository and submit pull requests.
+This project is licensed under the terms of the MIT License. For more details, see the `LICENSE` file in this repository.
+
+---
+
+For any additional questions or feedback, please open an issue in this repository.
