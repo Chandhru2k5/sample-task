@@ -1,111 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Calculator</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <style>
-        #calculator {
-            max-width: 300px;
-            margin: auto;
-            padding-top: 50px;
-        }
-        #display {
-            margin-bottom: 20px;
-            min-height: 60px;
-            font-size: 2em;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            background-color: #e9ecef;
-            border-radius: 5px;
-            padding: 10px;
-        }
-        .btn {
-            font-size: 1.5em;
-        }
-    </style>
+  <title>Calculator</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    #result { height: 60px; margin-top: 20px; text-align: right; font-size: 2em; }
+    .btn { width: 75px; }
+  </style>
 </head>
 <body>
-    <div id="calculator" class="text-center">
-        <div id="display">0</div>
-        <div class="btn-group">
-            <button class="btn btn-secondary" onclick="appendNumber(7)">7</button>
-            <button class="btn btn-secondary" onclick="appendNumber(8)">8</button>
-            <button class="btn btn-secondary" onclick="appendNumber(9)">9</button>
-            <button class="btn btn-secondary" onclick="setOperation('/')">/</button>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 offset-md-4">
+        <input type="text" id="result" class="form-control" disabled/>
+        <div id="calculator-buttons" class="btn-group-vertical">
+          <!-- Buttons will be added here by JavaScript -->
         </div>
-        <div class="btn-group">
-            <button class="btn btn-secondary" onclick="appendNumber(4)">4</button>
-            <button class="btn btn-secondary" onclick="appendNumber(5)">5</button>
-            <button class="btn btn-secondary" onclick="appendNumber(6)">6</button>
-            <button class="btn btn-secondary" onclick="setOperation('*')">*</button>
-        </div>
-        <div class="btn-group">
-            <button class="btn btn-secondary" onclick="appendNumber(1)">1</button>
-            <button class="btn btn-secondary" onclick="appendNumber(2)">2</button>
-            <button class="btn btn-secondary" onclick="appendNumber(3)">3</button>
-            <button class="btn btn-secondary" onclick="setOperation('-')">-</button>
-        </div>
-        <div class="btn-group">
-            <button class="btn btn-secondary" onclick="appendNumber(0)">0</button>
-            <button class="btn btn-secondary" onclick="clearDisplay()">C</button>
-            <button class="btn btn-secondary" onclick="calculateResult()">=</button>
-            <button class="btn btn-secondary" onclick="setOperation('+')">+</button>
-        </div>
+      </div>
     </div>
-    <script>
-        let currentNumber = '';
-        let previousNumber = '';
-        let operation = null;
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script>
+    const buttons = [
+      { label: '1', value: '1' },
+      { label: '2', value: '2' },
+      { label: '3', value: '3' },
+      { label: '+', value: '+' },
+      { label: '4', value: '4' },
+      { label: '5', value: '5' },
+      { label: '6', value: '6' },
+      { label: '-', value: '-' },
+      { label: '7', value: '7' },
+      { label: '8', value: '8' },
+      { label: '9', value: '9' },
+      { label: '*', value: '*' },
+      { label: '0', value: '0' },
+      { label: '=', value: '=' },
+      { label: 'C', value: 'C' },
+      { label: '/', value: '/' }
+    ];
 
-        function appendNumber(number) {
-            currentNumber = currentNumber.toString() + number.toString();
-            updateDisplay();
-        }
+    const result = $('#result');
+    const buttonContainer = $('#calculator-buttons');
 
-        function clearDisplay() {
-            currentNumber = '';
-            previousNumber = '';
-            operation = null;
-            updateDisplay();
-        }
-
-        function setOperation(op) {
-            if (currentNumber === '') return;
-            if (previousNumber !== '') calculateResult();
-            operation = op;
-            previousNumber = currentNumber;
-            currentNumber = '';
-        }
-
-        function calculateResult() {
-            let result;
-            const prev = parseFloat(previousNumber);
-            const current = parseFloat(currentNumber);
-            if (isNaN(prev) || isNaN(current)) return;
-            switch (operation) {
-                case '+':
-                    result = prev + current;
-                    break
-                case '-':
-                    result = prev - current;
-                    break
-                case '*':
-                    result = prev * current;
-                    break
-                case '/':
-                    result = prev / current;
-                    break
-                default: return;
+    buttons.forEach(button => {
+      const btn = $('<button/>', {
+        text: button.label,
+        val: button.value,
+        click: () => {
+          if (button.value === '=') {
+            try {
+              result.val(eval(result.val()));
+            } catch (e) {
+              alert('Invalid calculation');
+              result.val('');
             }
-            currentNumber = result;
-            operation = null;
-            previousNumber = '';
-        }
-
-        function updateDisplay() {
-            document.getElementById('display').innerText = currentNumber;
-        }
-    </script>
+          } else if (button.value === 'C') {
+            result.val('');
+          } else {
+            result.val(result.val() + button.value);
+          }
+        },
+        class: 'btn btn-outline-secondary'
+      });
+      buttonContainer.append(btn);
+    });
+  </script>
 </body>
 </html>
