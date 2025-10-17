@@ -1,72 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Calculator</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <style>
-    #result { height: 60px; margin-top: 20px; text-align: right; font-size: 2em; }
-    .btn { width: 75px; }
-  </style>
+    <meta charset="UTF-8">
+    <title>ToDo List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .todo-item {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4 offset-md-4">
-        <input type="text" id="result" class="form-control" disabled/>
-        <div id="calculator-buttons" class="btn-group-vertical">
-          <!-- Buttons will be added here by JavaScript -->
-        </div>
-      </div>
+    <div class="container">
+        <h1 class="text-center">ToDo List</h1>
+        <input type="text" id="todo-input" class="form-control" placeholder="Add new task">
+        <button id="add-btn" class="btn btn-primary">Add</button>
+        <ul id="todo-list" class="list-group"></ul>
     </div>
-  </div>
-  
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <script>
-    const buttons = [
-      { label: '1', value: '1' },
-      { label: '2', value: '2' },
-      { label: '3', value: '3' },
-      { label: '+', value: '+' },
-      { label: '4', value: '4' },
-      { label: '5', value: '5' },
-      { label: '6', value: '6' },
-      { label: '-', value: '-' },
-      { label: '7', value: '7' },
-      { label: '8', value: '8' },
-      { label: '9', value: '9' },
-      { label: '*', value: '*' },
-      { label: '0', value: '0' },
-      { label: '=', value: '=' },
-      { label: 'C', value: 'C' },
-      { label: '/', value: '/' }
-    ];
 
-    const result = $('#result');
-    const buttonContainer = $('#calculator-buttons');
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var todoList = $("#todo-list");
+            var todoInput = $("#todo-input");
+            var addBtn = $("#add-btn");
 
-    buttons.forEach(button => {
-      const btn = $('<button/>', {
-        text: button.label,
-        val: button.value,
-        click: () => {
-          if (button.value === '=') {
-            try {
-              result.val(eval(result.val()));
-            } catch (e) {
-              alert('Invalid calculation');
-              result.val('');
-            }
-          } else if (button.value === 'C') {
-            result.val('');
-          } else {
-            result.val(result.val() + button.value);
-          }
-        },
-        class: 'btn btn-outline-secondary'
-      });
-      buttonContainer.append(btn);
-    });
-  </script>
+            addBtn.click(function() {
+                var newTodo = todoInput.val().trim();
+                
+                if(newTodo) {
+                    var newTodoItem = $('<li class="list-group-item todo-item"></li>').text(newTodo);
+                    newTodoItem.append('<button class="btn btn-danger float-right delete-btn">Delete</button>');
+                    todoList.append(newTodoItem);
+                    todoInput.val("");
+                } else {
+                    alert("The task cannot be empty!");
+                }
+            });
+
+            todoList.on("click", ".delete-btn", function() {
+                $(this).parent().remove();
+            });
+        });
+    </script>
 </body>
 </html>
