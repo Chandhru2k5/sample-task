@@ -1,53 +1,261 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List App</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Simple Calculator</title>
     <style>
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+            user-select: none; /* Prevent text selection on calculator buttons */
+        }
+
+        #calculator {
+            background-color: #333;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 320px;
+            overflow: hidden;
+        }
+
+        #display {
+            background-color: #222;
+            color: #fff;
+            font-size: 3em;
             padding: 20px;
+            text-align: right;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            min-height: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
         }
-        #todo-list {
-            margin-top: 20px;
+
+        #buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background-color: #444;
+            padding: 1px;
         }
-        .list-item {
-            margin-bottom: 10px;
+
+        #buttons button {
+            background-color: #555;
+            color: #fff;
+            border: none;
+            padding: 20px;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none; /* Remove focus outline */
+        }
+
+        #buttons button:hover {
+            background-color: #666;
+        }
+
+        #buttons button:active {
+            background-color: #777;
+        }
+
+        .operator {
+            background-color: #f9a825;
+        }
+
+        .operator:hover {
+            background-color: #ffb74d;
+        }
+
+        .equals {
+            background-color: #4CAF50;
+            grid-column: 4;
+            grid-row: 3 / span 2;
+        }
+
+        .equals:hover {
+            background-color: #66BB6A;
+        }
+
+        .clear {
+            background-color: #d32f2f;
+        }
+
+        .clear:hover {
+            background-color: #ef5350;
+        }
+
+        .zero {
+            grid-column: span 2;
         }
     </style>
 </head>
 <body>
-    <h1 class="text-center">To-Do List</h1>
-    <div class="input-group">
-        <input type="text" id="todo-input" class="form-control" placeholder="New task">
-        <div class="input-group-append">
-            <button id="add-button" class="btn btn-outline-secondary">Add</button>
+    <div id="calculator">
+        <div id="display">0</div>
+        <div id="buttons">
+            <button class="clear" data-action="clear">C</button>
+            <button class="operator" data-action="divide">/</button>
+            <button class="operator" data-action="multiply">*</button>
+            <button class="operator" data-action="subtract">-</button>
+
+            <button class="number">7</button>
+            <button class="number">8</button>
+            <button class="number">9</button>
+            <button class="operator" data-action="add">+</button>
+
+            <button class="number">4</button>
+            <button class="number">5</button>
+            <button class="number">6</button>
+            <button class="equals" data-action="equals">=</button>
+
+            <button class="number">1</button>
+            <button class="number">2</button>
+            <button class="number">3</button>
+            <button class="number zero">0</button>
+            <button class="decimal" data-action="decimal">.</button>
         </div>
     </div>
-    <ul id="todo-list" class="list-group"></ul>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#add-button').click(function() {
-                const todoInput = $('#todo-input');
-                const todoText = todoInput.val().trim();
-                if (todoText) {
-                    const listItem = $('<li>')
-                        .addClass('list-group-item list-item')
-                        .text(todoText);
-                    $('#todo-list').append(listItem);
-                    todoInput.val('');
-                } else {
-                    alert('Please enter a task.');
-                }
-            });
+        const displayElement = document.getElementById('display');
+        const buttons = document.getElementById('buttons');
 
-            $(document).on('click', '.list-item', function() {
-                $(this).toggleClass('list-item-done');
-            });
+        let currentOperand = '';
+        let previousOperand = '';
+        let operation = undefined;
+        let shouldResetDisplay = false; // Flag to indicate if next number input should clear display
+
+        function clearAll() {
+            currentOperand = '';
+            previousOperand = '';
+            operation = undefined;
+            shouldResetDisplay = false;
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            if (currentOperand === '') {
+                displayElement.innerText = '0';
+            } else {
+                // Limit display length to avoid overflow, e.g., 12 characters
+                displayElement.innerText = currentOperand.slice(0, 12);
+            }
+        }
+
+        function appendNumber(number) {
+            if (shouldResetDisplay) {
+                currentOperand = number;
+                shouldResetDisplay = false;
+            } else {
+                if (number === '.' && currentOperand.includes('.')) return; // Prevent multiple decimals
+                if (currentOperand === '0' && number !== '.') { // If current is '0' and not a decimal, replace '0'
+                    currentOperand = number;
+                } else {
+                    if (currentOperand.length >= 12 && number !== '.') return; // Limit total digits
+                    currentOperand += number;
+                }
+            }
+            updateDisplay();
+        }
+
+        function chooseOperation(op) {
+            if (currentOperand === '' && previousOperand === '') return; // Nothing to operate on
+            if (currentOperand === '' && operation !== undefined) {
+                // If an operator is already chosen and no new number, just change the operator
+                operation = op;
+                return;
+            }
+            if (previousOperand !== '') { // If previous operand exists, calculate first
+                calculate();
+            }
+            operation = op;
+            previousOperand = currentOperand;
+            currentOperand = ''; // Clear current for next number
+            shouldResetDisplay = true; // Next number should overwrite display
+            updateDisplay();
+        }
+
+        function calculate() {
+            let computation;
+            const prev = parseFloat(previousOperand);
+            const current = parseFloat(currentOperand);
+
+            if (isNaN(prev) || isNaN(current)) return;
+
+            switch (operation) {
+                case '+':
+                    computation = prev + current;
+                    break;
+                case '-':
+                    computation = prev - current;
+                    break;
+                case '*':
+                    computation = prev * current;
+                    break;
+                case '/':
+                    if (current === 0) {
+                        displayElement.innerText = 'Error';
+                        currentOperand = '';
+                        previousOperand = '';
+                        operation = undefined;
+                        shouldResetDisplay = true; // To clear 'Error' on next input
+                        return;
+                    }
+                    computation = prev / current;
+                    break;
+                default:
+                    return;
+            }
+
+            currentOperand = roundResult(computation).toString();
+            operation = undefined;
+            previousOperand = '';
+            shouldResetDisplay = true;
+            updateDisplay();
+        }
+
+        function roundResult(num) {
+            // Prevent floating point inaccuracies and limit decimal places
+            const numStr = num.toString();
+            if (numStr.includes('.') && numStr.split('.')[1].length > 10) {
+                return parseFloat(num.toFixed(10));
+            }
+            return num;
+        }
+
+        buttons.addEventListener('click', e => {
+            const target = e.target;
+            if (!target.matches('button')) return;
+
+            const action = target.dataset.action;
+            const buttonText = target.innerText;
+
+            if (target.classList.contains('number')) {
+                appendNumber(buttonText);
+            } else if (target.classList.contains('decimal')) {
+                appendNumber('.');
+            } else if (target.classList.contains('operator')) {
+                chooseOperation(action === 'divide' ? '/' : action === 'multiply' ? '*' : action === 'subtract' ? '-' : '+');
+            } else if (target.classList.contains('equals')) {
+                calculate();
+            } else if (target.classList.contains('clear')) {
+                clearAll();
+            }
         });
+
+        // Initialize display
+        clearAll();
     </script>
 </body>
 </html>
