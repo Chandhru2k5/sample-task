@@ -1,45 +1,39 @@
-# Sample-Task: Calculator Webpage
+# Sample Task: Calculator Webpage
 
-This project is a calculator webpage, created as a part of 'Sample-Task' by Chandhru2k5. This calculator is designed to perform basic arithmetic operations such as addition, subtraction, multiplication and division. The live demo of the project can be accessed [here](https://Chandhru2k5.github.io/sample-task/).
+This repository, [Sample Task](https://github.com/Chandhru2k5/sample-task), contains the source code for a basic calculator webpage. The webpage is designed to perform basic arithmetic operations like addition, subtraction, multiplication, and division.
 
 ## Features
 
-The calculator webpage offers the following features:
+The calculator webpage offers the following functionality:
 
-1. **Basic arithmetic operations**: The calculator allows you to perform basic arithmetic operations such as addition, subtraction, multiplication, and division.
-
-2. **Clean UI**: The calculator has a user-friendly interface that is easy to navigate.
-
-3. **Responsive design**: The design of the calculator is responsive, meaning it can adapt to different screen sizes.
+1. **Basic Arithmetic Operations:** Perform addition, subtraction, multiplication, and division.
+2. **Clear Functionality:** Clear the input fields and results with a single click.
+3. **Responsive Design:** The webpage is designed to be responsive, ensuring compatibility with both desktop and mobile devices.
 
 ## Setup Instructions
 
-To set up this project locally, follow the steps below:
-
-1. Clone the repository to your local machine using the following command:
-
-   `git clone https://github.com/Chandhru2k5/sample-task.git`
-   
-2. Navigate to the project directory:
-
-   `cd sample-task`
-   
-3. Open the `index.html` file in your browser to view the webpage.
+No specific setup is required for this project as it's a simple webpage. It can be run directly from the browser by opening the `index.html` file.
 
 ## Usage Instructions
 
-To use the calculator, simply input your desired arithmetic expression using the calculator's buttons and press the equals (=) button to get the result.
+1. Navigate to the [live demo](https://Chandhru2k5.github.io/sample-task/) of the calculator webpage.
+2. Enter the numbers in the provided input fields.
+3. Choose the arithmetic operation you want to perform.
+4. Click on the `Calculate` button to get the result.
+5. To clear the input fields and result, click on the `Clear` button.
 
 ## Technical Implementation Details
 
-This project is implemented using HTML, CSS, and JavaScript:
+The calculator webpage is built using HTML, CSS, and JavaScript. The page structure is designed with HTML, styled with CSS, and the calculator functionality is implemented using JavaScript.
 
-- **HTML**: HTML is used for the structural layer of the webpage.
+- `index.html` - Contains the structure of the webpage.
+- `styles.css` - Contains the styles for the webpage.
+- `script.js` - Contains the JavaScript code that implements the calculator functionality.
 
-- **CSS**: CSS is used for the presentation layer of the webpage, providing the webpage with its look and feel.
+## License Information
 
-- **JavaScript**: JavaScript is used for the functional layer of the webpage, enabling all the arithmetic operations.
+This project is licensed under the terms of the [MIT License](https://opensource.org/licenses/MIT). For more details, please see the [LICENSE](https://github.com/Chandhru2k5/sample-task/blob/main/LICENSE) file in the repository.
 
-## License
+## Contribution
 
-This project is licensed under the terms of the MIT license. For more details, refer to the [LICENSE](https://github.com/Chandhru2k5/sample-task/blob/main/LICENSE) file in the project repository.
+Contributions to improve this project are welcomed. Please feel free to fork the repository and submit pull requests.
